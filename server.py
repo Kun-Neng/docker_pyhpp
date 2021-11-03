@@ -14,18 +14,23 @@ def path_finding():
         scenario = request.get_json()
         # print(scenario)
 
+        has_grouping = 'grouping' in scenario
+        is_grouping = True if has_grouping is True and 'radius' in scenario['grouping'] else False
+
         a_star = AStar(scenario)
         result = a_star.calculate_path()
         message = result["message"]
         elapsed_time = result["elapsed_ms"]
         path = result['path']
-        # print(path)
+        refined_path = result['refined_path']
 
         return {
             'message': message,
+            'grouping': is_grouping,
             'data': {
                 'elapsedMS': elapsed_time,
-                'path': path
+                'path': path,
+                'refinedPath': refined_path
             }
         }
 
